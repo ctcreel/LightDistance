@@ -42,7 +42,7 @@ void loop() {
     lastNotified--;
   } else if(distance < ACCEPTABLE_HEIGHT) {
     e->createEvent(getDistance(), SET_DISTANCE_ALARM);
-    lastNotified = 600;
+    lastNotified = 10;
   }
 }
 
