@@ -1,6 +1,5 @@
 #include "DEBUG.h"
 #include "../../Projects/HydroManager/Commands.h"
-#include <SoftwareSerial.h>
 #include <TextFinder.h>
 #include <Time.h>
 #include <TimeAlarms.h>
