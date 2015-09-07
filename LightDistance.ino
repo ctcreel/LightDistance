@@ -15,7 +15,6 @@
 #define MEASURE_EVERY 
 
 generatorDeviceID gID;
-SoftwareSerial ss(11,10);
 
 eventStream *e;
 int lastNotified;
@@ -28,8 +27,8 @@ void setup() {
   pinMode(RANGE_FINDER_POWER, OUTPUT);
   digitalWrite(RANGE_FINDER_POWER, HIGH);
   lastNotified = 0;
-  ss.begin(BAUD_RATE);
-  e = new eventStream(&ss,&gID);
+  Serial3.begin(BAUD_RATE);
+  e = new eventStream(&Serial3,&gID);
   new eventOutgoing(e, getDistance, SET_DISTANCE, GET_DISTANCE);
   Alarm.timerRepeat(900, measurement);
   measurement();
