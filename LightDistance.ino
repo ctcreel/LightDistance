@@ -10,13 +10,10 @@
 
 #define RANGE_FINDER_DATA 53
 #define RANGE_FINDER_POWER 52
-#define ACCEPTABLE_HEIGHT 18
-#define MEASURE_EVERY 
 
 generatorDeviceID gID;
 
 eventStream *e;
-int lastNotified;
 
 void setup() {
 
@@ -25,23 +22,17 @@ void setup() {
   pinMode(RANGE_FINDER_DATA, INPUT);
   pinMode(RANGE_FINDER_POWER, OUTPUT);
   digitalWrite(RANGE_FINDER_POWER, HIGH);
-  lastNotified = 0;
   Serial3.begin(BAUD_RATE);
   e = new eventStream(&Serial3,&gID);
   new eventOutgoing(e, getDistance, SET_DISTANCE, GET_DISTANCE);
-  Alarm.timerRepeat(900, measurement);
-  measurement();
 }
 
 void loop() {
-  e->check(60);
-  unsigned long distance = getDistance();
-  if(lastNotified > 0) {
-    lastNotified--;
-  } else if(distance < ACCEPTABLE_HEIGHT) {
-    e->createEvent(getDistance(), SET_DISTANCE_ALARM);
-    lastNotified = 10;
-  }
+  e->check(10);
+/*
+  Serial.print("Distance ");
+  Serial.println(getDistance());
+*/
 }
 
 const unsigned long getDistance(void) {
@@ -50,8 +41,3 @@ const unsigned long getDistance(void) {
   DEBUG("Plant is "+String(pulse) + " inches away from the light");
   return ((unsigned long) pulse);
 }
-
-void measurement(void) {
-    e->createEvent(getDistance(), SET_DISTANCE);
-}
-
