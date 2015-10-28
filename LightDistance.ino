@@ -1,5 +1,6 @@
 #include "DEBUG.h"
 #include "../../Projects/HydroManager/Commands.h"
+#include "../../Projects/HydroManager/Config.h"
 #include <TextFinder.h>
 #include <Time.h>
 #include <TimeAlarms.h>
@@ -36,8 +37,7 @@ void loop() {
 }
 
 const unsigned long getDistance(void) {
-  const float deviceHeight = 3;
-  float pulse = (((float) pulseIn(RANGE_FINDER_DATA, HIGH)) / 147.0 + deviceHeight);
+  float pulse = (((float) pulseIn(RANGE_FINDER_DATA, HIGH)) / 147.0 + SENSOR_TO_PLANT_HEIGHT);
   DEBUG("Plant is "+String(pulse) + " inches away from the light");
   return ((unsigned long) pulse);
 }
