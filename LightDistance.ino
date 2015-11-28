@@ -8,23 +8,26 @@
 #include "eventHandler.h"
 #include "eventCallBack.h"
 #include "generatorDeviceID.h"
+#include "SoftwareSerial.h"
 
 #define RANGE_FINDER_DATA 53
 #define RANGE_FINDER_POWER 52
 
 generatorDeviceID gID;
-
 eventStream *e;
+SoftwareSerial XBee(12,11); // RX, TX
 
 void setup() {
 
   //This opens up a serial connection to shoot the results back to the PC console
-  Serial.begin(19200);
+  Serial.begin(BAUD_RATE);
   pinMode(RANGE_FINDER_DATA, INPUT);
   pinMode(RANGE_FINDER_POWER, OUTPUT);
   digitalWrite(RANGE_FINDER_POWER, HIGH);
-  Serial3.begin(BAUD_RATE);
-  e = new eventStream(&Serial3,&gID);
+  //Serial3.begin(BAUD_RATE);
+  XBee.begin(BAUD_RATE);
+  // e = new eventStream(&Serial3,&gID);
+  e = new eventStream(&XBee,&gID);
   new eventOutgoing(e, getDistance, SET_DISTANCE, GET_DISTANCE);
 }
 
